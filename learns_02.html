@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทที่ 2 - การใช้อินเทอร์เน็ตอย่างมีประสิทธิภาพ</title>
+    <link rel="stylesheet" href="style_learn.css">
+    <link rel="stylesheet" href="style_learns.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Mali', sans-serif;
+            background-color: #f2faff; /* สีฟ้าอ่อนที่คุณชอบ */
+            overflow-x: hidden;
+        }
+        /* ตกแต่งปุ่มที่ถูกล็อก (สีดำ) */
+        .btn-locked {
+            background-color: #333333 !important;
+            color: #888888 !important;
+            cursor: not-allowed !important;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+    <div class="bg-shape shape3"></div>
+    <div class="bg-shape shape4"></div>
+
+    <header class="navbar">
+        <div class="logo">
+            online<br><span class="sub-logo">COURSES</span>
+        </div>
+        <div class="nav-links">
+            <a id="back-to-main" href="main.html" class="button">กลับหน้าหลัก</a>
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <aside class="sidebar-menu">
+            <li class="lesson-item active">
+                <a href="learns_01.html" data-target-id="learns_01">บทที่ 1 การค้นหาข้อมูล <span>04.23</span></a>
+            </li>
+            <li class="lesson-item">
+                <a href="learns_02.html" data-target-id="learns_02">บทที่ 2 การกำหนดขอบเขต <span>03.42</span></a>
+            </li>
+            <li class="lesson-item">
+                <a href="learns_03.html" data-target-id="learns_03">บทที่ 3 การประเมินความน่าเชื่อถือ <span>04.01</span></a>
+            </li>
+            <li class="lesson-item">
+                <a href="auth.html?type=quiz" data-target-id="quiz">ทำแบบทดสอบหลังเรียน</a>
+            </li>
+            <li class="lesson-item">
+                <a href="auth.html?type=survey" data-target-id="survey">แบบประเมินความพึงพอใจ</a>
+            </li>
+        </aside>
+
+        <main class="content-section">
+            <div class="video-title">บทที่ 2: เทคนิคการค้นหาข้อมูล</div>
+
+            <div class="video-container">
+                <div id="player"></div> 
+            </div>
+            
+            <div class="Description">
+                <h3>เทคนิคการค้นหาข้อมูล</h3>
+                <p>วิธีการที่ใช้ในการค้นหาเพื่อให้ได้ข้อมูลที่ตรงกับความต้องการมากที่สุด...</p>
+
+            <div class="Description">
+                <h3>เทคนิคการค้นหาข้อมูล</h3>
+                <p>วิธีการที่ใช้ในการค้นหาเพื่อให้ได้ข้อมูลที่ตรงกับความต้องการมากที่สุด...</p>
+                <ul>
+                    <li><strong>อัญประกาศ (“ ”) :</strong> ค้นหาประโยคแบบตรงตัว</li>
+                    <li><strong>เครื่องหมายบวก (+) :</strong> บังคับให้มีคำนั้น</li>
+                    <li><strong>เครื่องหมายลบ (-) :</strong> ตัดคำที่ไม่ต้องการออก</li>
+                </ul>
+            </div>
+
+            <div class="item-card">
+                <div class="action-buttons">
+                    <a href="learns_01.html">ย้อนกลับไปบทที่ 1</a>
+                    <a href="learns_03.html" data-target-id="learns_03">ไปบทที่ 3 (ดูคลิปให้จบเพื่อปลดล็อก)</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // **สำคัญ** อย่าลืมเปลี่ยน 'VIDEO_ID_EP_2' เป็นรหัสคลิป YouTube จริงๆ ของบทที่ 2 นะครับ
+        CourseSystem.initVideoLesson('A7aUw8hkkZU', 'learns_03');
+
+        // (โค้ดจัดการชื่อ student-name คงเดิม)https://youtu.be/A7aUw8hkkZU?si=2CBNvVAS_x1I8LHH
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const studentName = params.get('student-name') || '';
+            if (studentName) {
+                document.getElementById('back-to-main').href = `main.html?student-name=${encodeURIComponent(studentName)}`;
+            }
+        });
+    </script>
+</body>
+</html>

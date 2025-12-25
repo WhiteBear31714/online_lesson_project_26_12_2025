@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบบทเรียนคอมพิวเตอร์</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF9A9E; /* ชมพูพาสเทล */
+            --secondary-color: #A18CD1; /* ม่วงอ่อน */
+            --accent-color: #fbc2eb; /* สีตกแต่ง */
+            --bg-gradient: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            --card-bg: #ffffff;
+            --text-color: #555;
+            --input-bg: #f9f9f9;
+            --shadow-soft: 0 10px 25px rgba(112, 144, 176, 0.2);
+        }
+
+        body {
+            font-family: 'Mali', sans-serif;
+            background: var(--bg-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* ป้องกัน Scrollbar */
+        }
+
+        /* ตกแต่งพื้นหลังด้วยวงกลมจางๆ (Background shapes) */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: -1;
+            animation: floatShape 10s infinite alternate;
+        }
+        .shape1 { width: 300px; height: 300px; top: -50px; left: -50px; }
+        .shape2 { width: 200px; height: 200px; bottom: 50px; right: -50px; animation-delay: 2s; }
+
+        @keyframes floatShape {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 40px); }
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 30px; /* มุมโค้งมนมากขึ้น */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(10px); /* เอฟเฟกต์กระจกฝ้า */
+            border: 4px solid #fff;
+        }
+
+        .login-card img {
+            width: 110px;
+            height: auto;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+            animation: floatIcon 3s ease-in-out infinite; /* รูปดุ๊กดิ๊ก */
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .login-card h2 {
+            color: #4a4a4a;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            font-size: 1.6rem;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 1.2rem;
+        }
+
+        .login-card label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            color: #666;
+            font-size: 1rem;
+            padding-left: 10px; /* ขยับ label ให้ตรงกับ input */
+        }
+
+        .login-card input,
+        .login-card select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid transparent; /* ซ่อนเส้นขอบไว้ก่อน */
+            background-color: var(--input-bg);
+            border-radius: 20px; /* มุมโค้งมนเหมือนแคปซูล */
+            font-family: 'Mali', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            box-sizing: border-box; /* สำคัญ: รวม padding ในความกว้าง */
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); /* เงาด้านใน */
+        }
+
+        .login-card input:focus,
+        .login-card select:focus {
+            outline: none;
+            background-color: #fff;
+            border-color: #8fd3f4;
+            box-shadow: 0 0 0 4px rgba(143, 211, 244, 0.2);
+        }
+
+        .login-card button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 1rem;
+            background: linear-gradient(to right, #84fab0 0%, #8fd3f4 100%); /* ไล่สีสดใส */
+            border: none;
+            border-radius: 25px;
+            font-family: 'Mali', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 5px 15px rgba(132, 250, 176, 0.4);
+        }
+
+        .login-card button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(132, 250, 176, 0.6);
+        }
+
+        .login-card button:active {
+            transform: translateY(1px);
+        }
+
+        .note {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* ตกแต่งเล็กน้อยให้ดูน่ารัก */
+        .decoration {
+            font-size: 1.5rem;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            opacity: 0.2;
+            transform: rotate(15deg);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+
+    <div class="login-card">
+        <div class="decoration">✏️</div>
+        <img src="img/macbookapplenotebookcomputer-116046_115991.png" alt="สติกเกอร์วิชาคอมพิวเตอร์">
+        
+        <h2>ยินดีต้อนรับคนเก่ง! 👋</h2>
+        
+        <form action="main.html" method="GET">
+            <div class="form-group">
+                <label for="student-name">ชื่อนักเรียน 👦👧</label>
+                <input type="text" id="student-name" name="student-name" placeholder="เช่น ด.ช.รักเรียน ขยันมาก" required>
+            </div>
+
+            <div class="form-group">
+                <label for="class">ชั้นเรียน 🏫</label>
+                <select id="class" name="class" required>
+                    <option value="">-- เลือกห้องเรียน --</option>
+                    <option value="ป.4/1">ป.4/1</option>
+                    <option value="ป.5/1">ป.5/1</option>
+                    <option value="ป.6/1">ป.6/1</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="number">เลขที่ #️⃣</label>
+                <input type="number" id="number" name="number" placeholder="กรอกเลขที่ของหนู" required>
+            </div>
+
+            <button type="submit">🚀 เข้าสู่บทเรียน</button>
+        </form>
+        <div class="note">ตรวจสอบข้อมูลให้ถูกต้องก่อนเข้านะครับ</div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+/* === ฟอนต์และตัวแปรสี === */
+@import url('https://fonts.googleapis.com/css2?family=Mali:wght@300;500;700&display=swap');
+
+:root {
+    --primary-color: #55d1e8; /* ฟ้าสดใส (สำหรับปุ่ม/ไฮไลท์) */
+    --secondary-color: #a18cd1; /* ม่วงพาสเทล */
+    --accent-color: #ff9a9e; /* ชมพู */
+    --text-dark: #4a4a4a;
+    --text-light: #777;
+    --white: #ffffff;
+    /* เปลี่ยนจาก Gradient เป็นสีพื้นฟ้าอ่อนเรียบๆ */
+    --main-bg-color: #e3f2fd; 
+    --shadow-card: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+body {
+    font-family: 'Mali', sans-serif;
+    background-color: var(--main-bg-color); /* ใช้สีพื้นเรียบ */
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* === ลบส่วน CSS ของ Floating Shapes (bg-shape) ออกทั้งหมดแล้ว === */
+
+
+/* === Navbar === */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.8); /* ปรับให้ขาวโปร่งแสงขึ้นนิดหน่อย */
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03); /* ลดเงาให้เบาลง */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin: 1rem 2rem;
+    border-radius: 50px;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    line-height: 1.1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon { font-size: 1.8rem; }
+
+.sub-logo {
+    font-size: 0.7rem;
+    color: var(--accent-color);
+    letter-spacing: 2px;
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff; /* เปลี่ยนพื้นหลังให้เป็นสีขาว */
+    padding: 5px 15px;
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* เพิ่มเงาเบาๆ */
+}
+
+.profile-text { font-size: 0.9rem; color: #666; font-weight: 600; }
+.profile-icon { font-size: 1.4rem; background: var(--primary-color); color: #fff; border-radius: 50%; padding: 5px; }
+
+/* === Hero Section === */
+.hero {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
+    max-width: 1200px;
+    margin: auto;
+    gap: 2rem;
+    min-height: 80vh;
+}
+
+.hero-text { flex: 1 1 45%; }
+
+.badge {
+    background-color: #fff;
+    color: var(--accent-color);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    color: var(--text-dark);
+    margin: 0.5rem 0;
+    line-height: 1.2;
+}
+
+.highlight {
+    color: var(--primary-color);
+    text-shadow: 2px 2px 0px #fff;
+}
+
+.hero-text h2 {
+    font-size: 1.4rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    /* ปรับพื้นหลังกล่องข้อความให้เป็นสีขาวทึบ เพื่อความสะอาดตา */
+    background: #ffffff; 
+    padding: 1.5rem;
+    border-radius: 20px;
+    border-left: 5px solid var(--secondary-color);
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-card); /* เพิ่มเงาให้ดูมีมิติ */
+}
+
+/* ปุ่มกด */
+.cta-button button {
+    background: linear-gradient(to right, #84fab0 0%, #8fd3f4 100%);
+    color: white;
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    font-family: 'Mali', sans-serif;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(132, 250, 176, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cta-button button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(132, 250, 176, 0.6);
+}
+
+/* === Hero Image & Blob === */
+.hero-image {
+    flex: 1 1 45%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Blob หลังรูปภาพ (ยังคงไว้เพื่อให้รูปเด่น) */
+.blob-bg {
+    position: absolute;
+    width: 450px; /* ขยายขนาดนิดหน่อย */
+    height: 450px;
+    /* ปรับสี Blob ให้เข้ากับพื้นหลังใหม่ */
+    background: linear-gradient(to top right, #ffffff 0%, #c3e6ff 100%);
+    border-radius: 64% 36% 27% 73% / 55% 58% 42% 45%;
+    z-index: -1;
+    animation: blobMorph 8s ease-in-out infinite alternate;
+    opacity: 0.8;
+}
+
+@keyframes blobMorph {
+    0% { border-radius: 64% 36% 27% 73% / 55% 58% 42% 45%; }
+    100% { border-radius: 33% 67% 58% 42% / 63% 38% 62% 37%; transform: rotate(5deg); }
+}
+
+.hero-image img {
+    max-width: 90%;
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+    animation: floatImg 4s ease-in-out infinite;
+    border-radius: 20px;
+}
+
+@keyframes floatImg {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .navbar {
+        margin: 10px;
+        padding: 0.8rem 1.5rem;
+    }
+    
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding: 2rem 1.5rem;
+        gap: 1rem;
+    }
+
+    .hero-text h1 { font-size: 2.2rem; }
+    
+    .blob-bg { width: 300px; height: 300px; }
+    
+    .hero-text p { text-align: left; }
+    
+    .cta-button button { width: 100%; justify-content: center; }
+}

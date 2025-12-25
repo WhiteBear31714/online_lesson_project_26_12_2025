@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บทเรียนออนไลน์ เรื่อง การใช้อินเทอร์เน็ตอย่างมีประสิทธิภาพ</title>
+    <link rel="stylesheet" href="style_main.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* สไตล์เพิ่มเติมสำหรับปุ่มเพลง */
+        .music-control {
+            background: none;
+            border: none;
+            color: #4169e1;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: transform 0.2s;
+        }
+        .music-control:hover { transform: scale(1.1); }
+        
+        /* สไตล์สำหรับปุ่มที่ล็อก */
+        .btn-locked {
+            background-color: #ccc !important;
+            color: #666 !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+    <div class="bg-shape shape3"></div>
+    <div class="bg-shape shape4"></div>
+    <div class="navbar">
+        <div class="logo">
+            online<br><span class="sub-logo">COURSES</span>
+        </div>
+            <div class="nav-links">
+                <button id="music-toggle" class="music-control" title="เปิด/ปิดเพลง">
+                    <i class="fas fa-volume-mute"></i> </button>
+
+                <span id="student-name-display" style="font-weight: bold; color: #4169e1; margin-left: 15px;"></span>
+                <span class="profile-icon">👤</span>
+                
+                <a href="indexs.html" style="margin-left: 10px;">
+                    <button style="padding: 5px 15px; border-radius: 15px; cursor: pointer;">ออกจากระบบ</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="top-course-banner-wrapper">
+        <div class="top-course-banner-card">
+            <img src="img/1.png" alt="แบนเนอร์คอร์สเรียน: การใช้อินเทอร์เน็ตอย่างมีประสิทธิภาพ" 
+                onerror="this.src='https://placehold.co/900x250?text=Course+Banner+Not+Found'">
+        </div>
+    </div> 
+
+    <div class="video_section_wrapper">
+        <div class="video_header_card">
+            <div class="course-title-info">
+                <h1>การค้นหาข้อมูลโดยใช้อินเทอร์เน็ต</h1>
+                <p>ใช้อินเทอร์เน็ตในการค้นหาข้อมูลอย่างมีประสิทธิภาพ</p>
+                <p>👨‍🏫 โดย นายภูผา พละสุข </p>
+                <p>👨 By Mr. Bhupha Palasuk</p>
+            </div>
+            <div class="video-preview-embed">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/watch?v=9Qp4a6ec4o0" title="Intro Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+        </div>
+    </div>
+    <div class="carousel-tabs">
+        <button onclick="jumpTo(0)" id="tab-0" class="active">📘 แผนการเรียนรู้</button>
+        <button onclick="jumpTo(1)" id="tab-1">📖 เนื้อหาบทเรียน</button>
+        <button onclick="jumpTo(2)" id="tab-2">🎓 บทเรียน</button>
+    </div>
+
+    <div class="carousel-container">
+        <button class="carousel-btn prev" onclick="moveSlide(-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveSlide(1)">›</button>
+
+        <div class="carousel-track" id="track">
+            
+            <div class="carousel-item" data-index="0">
+                <div class="content-card">
+                    <div class="header">
+                        <h1>แผนการจัดการเรียนรู้</h1>
+                        <p>การค้นหาข้อมูลโดยใช้อินเทอร์เน็ต</p>
+                    </div>
+
+                    <div class="section">
+                        <h3>1. มาตรฐาน/ตัวชี้วัด</h3>
+                        <p>ว 4.2 ป.6/3 ใช้อินเทอร์เน็ตในการค้นหาข้อมูลอย่างมีประสิทธิภาพ</p>
+                    </div>
+
+                    <div class="section">
+                        <h3>2. จุดประสงค์การเรียนรู้</h3>
+                        <p>1. อธิบายเทคนิคการค้นหาข้อมูลแบบต่าง ๆ ในการค้นหาข้อมูลได้ (K)</p>
+                        <p>2. ใช้เทคนิคการค้นหาข้อมูลแบบต่าง ๆ ได้เหมาะสมกับสิ่งที่ต้องการค้นหาได้ (P)</p>
+                        <p>3. เห็นประโยชน์ของเทคนิคการค้นหาข้อมูลแบบต่าง ๆ (A)</p>
+                    </div>
+
+                    <div class="section">
+                        <h3>3. สาระการเรียนรู้</h3>
+                        <p>- การใช้เทคนิคการค้นหาขั้นสูง เช่น การใช้ตัวดำเนินการ การระบุรูปแบบของข้อมูลหรือชนิดของไฟล์</p>
+                    </div>
+
+                    <div class="section">
+                        <h3>5. สมรรถนะสำคัญของผู้เรียน</h3>
+                        <div class="boxes">
+                            <div class="box">
+                                <h3>สมรรถนะ</h3>
+                                <ul>
+                                    <li>ความสามารถในการสื่อสาร</li>
+                                    <li>ความสามารถในการคิด</li>
+                                    <li>ความสามารถในการแก้ปัญหา</li>
+                                    <li>ความสามารถในการใช้ทักษะชีวิต</li>
+                                </ul>
+                            </div>
+                            <div class="box">
+                                <h3>ทักษะ 4Cs</h3>
+                                <ul>
+                                    <li>ทักษะการคิดอย่างวิจารณญาณ</li>
+                                    <li>ทักษะการทำงานร่วมกัน</li>
+                                    <li>ทักษะการสื่อสาร</li>
+                                </ul>
+                            </div>
+                            <div class="box">
+                                <h3>คุณลักษณะอันพึงประสงค์</h3>
+                                <ul>
+                                    <li>มีวินัย</li>
+                                    <li>ใฝ่เรียนรู้</li>
+                                    <li>มุ่งมั่นในการทำงาน</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>6. กิจกรรมการเรียนรู้</h3>
+                        <p>แนวคิด/รูปแบบการสอน/วิธีการสอน/เทคนิค : วิธีการสอนแบบสืบเสาะหาความรู้ (5Es Instructional Model)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item" data-index="1">
+                <div class="content-card book-card">
+                    <div class="header">
+                        <h1>หนังสือเรียนออนไลน์</h1>
+                        <p>คลิกที่ปุ่มด้านล่างเพื่อเปิดอ่าน</p>
+                    </div>
+                    <div class="img_B">
+                        <img src="img/1618035FC.jpg" alt="รูปปกหนังสือ" style="width: 250px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);" onerror="this.src='https://placehold.co/200x300?text=Book+Cover'">
+                    </div>
+
+                    <div class="but">
+                        <a href="#" 
+                            data-target-id="textbook"
+                            onclick="return CourseSystem.handleClick(this, 'textbook', 'https://placehold.co/200x300?text=Book+Cover')">
+                                <button class="main-btn"></i>📖 เนื้อหาหนังสือเรียน</button>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="carousel-item" data-index="2">
+                <div class="content-card">
+                    <div class="content-group">
+                        <h2><i class="fas fa-book"></i> เนื้อหาคอร์ส</h2>
+
+                        <div class="item-card">
+                            <h3><i class="fas fa-file-alt"></i> แบบทดสอบก่อนเรียน</h3>
+                            <div class="action-buttons">
+                                <a href="#" 
+                                    data-target-id="pre_test"
+                                    onclick="return CourseSystem.handleClick(this, 'pre_test', 'https://script.google.com/macros/s/AKfycbyngqKJ-HcUWjRhdjhTRL7V09n2VpPaJpQxscYpMk1d8CZDdNeG1Kvg7e7p7L5d5eor/exec')">
+                                    <i class="fas fa-pen"></i> ทำแบบทดสอบ
+                                </a>
+                            </div>
+                        </div>
+
+            <div class="item-card">
+                <h3><i class="fas fa-video"></i> บทที่ 1 การค้นหาข้อมูล</h3>
+                    <div class="action-buttons">
+                        <a href="#" 
+                            data-target-id="learns_01"
+                            onclick="return CourseSystem.handleClick(this, 'learns_01', 'learns_01.html')">
+                                <i class="fas fa-play-circle"></i> ดูคลิปสอน
+                        </a>
+                    </div>
+            </div>
+
+            <div class="item-card">
+                <h3><i class="fas fa-video"></i> บทที่ 2 การกำหนดขอบเขต</h3>
+                    <div class="action-buttons">
+                            <a href="#" 
+                                data-target-id="learns_02"
+                                onclick="return CourseSystem.handleClick(this, 'learns_02', 'learns_02.html')">
+                                    <i class="fas fa-play-circle"></i> ดูคลิปสอน
+                            </a>
+                    </div>
+            </div>
+
+            <div class="item-card">
+                <h3><i class="fas fa-video"></i> บทที่ 3 การประเมินความน่าเชื่อถือ</h3>
+                <div class="action-buttons">
+                    <a href="learns_03.html" target="_blank" data-target-id="learns_03">
+                        <i class="fas fa-play-circle"></i> ดูคลิปสอน
+                    </a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3><i class="fas fa-file-signature"></i> แบบทดสอบหลังเรียน</h3>
+                <div class="action-buttons">
+                    <a href="#" 
+                        data-target-id="post_test"
+                        onclick="return CourseSystem.handleClick(this, 'post_test', 'https://script.google.com/macros/s/AKfycbxBdKhgeM6vRC72VS9t3oflH2xpY7nu9F-0LCW5aV15aLjL3_-l_fTJorykUz-mkO4S7g/exec')">
+                        <i class="fas fa-check-double"></i> แบบทดสอบหลังเรียน
+                    </a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <h3><i class="fas fa-star"></i> แบบประเมินความพึงพอใจ</h3>
+                <div class="action-buttons">
+                    <a href="#" 
+                        data-target-id="survey"
+                        onclick="return CourseSystem.handleClick(this, 'survey', 'ลิงก์_Google_Form_แบบประเมิน_ของคุณ')">
+                        <i class="fas fa-smile"></i> แบบประเมินความพึงพอใจ
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+        </div> 
+    </div> 
+    
+    <script src="carousel.js"></script> 
+    <script src="js/app.js"></script> 
+    <script src="auth.js"></script>
+</body>
+</html>
