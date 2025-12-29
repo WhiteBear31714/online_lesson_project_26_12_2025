@@ -1,8 +1,12 @@
-// auth.js - Fixed Logic
+// auth.js
 const CourseSystem = {
-    // --- ส่วนตรวจสอบและปลดล็อก ---
+    // --- 1. ตรวจสอบและปลดล็อก ---
     isUnlocked(id) {
-        if (id === 'pre_test') return true; // แบบทดสอบก่อนเรียนเข้าได้เสมอ
+        if (id === 'pre_test' || id === 'learns_01') return true;
+        // เช็คเผื่อกรณีชื่อ ID ไม่ตรงกัน (quiz กับ post_test คือตัวเดียวกัน)
+        if (id === 'quiz' && localStorage.getItem('unlocked_post_test') === 'true') return true;
+        if (id === 'post_test' && localStorage.getItem('unlocked_quiz') === 'true') return true;
+        
         return localStorage.getItem('unlocked_' + id) === 'true';
     },
 
@@ -11,8 +15,7 @@ const CourseSystem = {
         this.refreshButtons();
     },
 
-    // --- ส่วนจัดการหน้าตาปุ่ม (Visuals Only) ---
-    // ฟังก์ชันนี้จะเปลี่ยนแค่ "สี" และ "ไอคอน" เท่านั้น ไม่ยุ่งกับการคลิก
+    // --- 2. จัดการหน้าตาปุ่ม ---
     refreshButtons() {
         const links = document.querySelectorAll('[data-target-id]');
         links.forEach(link => {
@@ -21,71 +24,52 @@ const CourseSystem = {
             const icon = link.querySelector('i');
 
             if (isLocked) {
-                // สถานะล็อก: เป็นสีเทา
                 link.classList.add('btn-locked');
                 link.style.filter = "grayscale(100%) opacity(0.7)";
-                if (icon) icon.className = "fas fa-lock"; // เปลี่ยนไอคอนเป็นแม่กุญแจ
+                if (icon) icon.className = "fas fa-lock";
             } else {
-                // สถานะปลดล็อก: คืนค่าสีเดิม
                 link.classList.remove('btn-locked');
                 link.style.filter = "none";
                 link.style.opacity = "1";
                 
-                // คืนไอคอนให้ถูกต้อง (ตามประเภท)
+                // คืนค่าไอคอนตามประเภทปุ่ม
                 if (icon) {
-                    if (targetId === 'textbook') icon.className = "fas fa-book-open";
-                    else if (targetId === 'pre_test') icon.className = "fas fa-pen";
-                    else if (targetId.includes('learns')) icon.className = "fas fa-play-circle";
-                    else if (targetId === 'post_test') icon.className = "fas fa-check-double";
+                    if (targetId.includes('learns')) icon.className = "fas fa-play-circle";
+                    else if (targetId === 'quiz' || targetId === 'post_test') icon.className = "fas fa-file-alt";
                     else if (targetId === 'survey') icon.className = "fas fa-smile";
                 }
             }
         });
     },
 
-    // --- ส่วนจัดการการคลิก (Click Logic) ---
-    // ทุกปุ่มจะวิ่งมาเช็คเงื่อนไขที่นี่ที่เดียว
-    handleClick(element, targetId, url) {
-        // 1. ถ้าเป็น "แบบทดสอบก่อนเรียน" (pre_test)
-        if (targetId === 'pre_test') {
-            // สั่งปลดล็อกทันที
-            this.unlock('textbook');
-            this.unlock('learns_01');
-            
-            // ไปยังลิงก์
-            window.open(url, '_blank');
-            return false;
-        }
+    // --- 3. ดักจับการคลิก (เพิ่มระบบปลดล็อก Survey) ---
+    initLinkInterceptors() {
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('[data-target-id]');
+            if (!link) return;
 
-        // 2. เช็คว่าล็อกอยู่ไหม?
-        if (!this.isUnlocked(targetId)) {
-            // แจ้งเตือนตามลำดับ
-            if (targetId === 'textbook' || targetId === 'learns_01') {
-                alert("⚠️ กรุณาทำ 'แบบทดสอบก่อนเรียน' ให้เสร็จก่อนนะครับ");
-            } else if (targetId === 'learns_02') {
-                alert("⚠️ กรุณาเรียน 'บทที่ 1' ให้จบก่อนครับ");
-            } else if (targetId === 'learns_03') {
-                alert("⚠️ กรุณาเรียน 'บทที่ 2' ให้จบก่อนครับ");
-            } else if (targetId === 'post_test') {
-                alert("⚠️ กรุณาเรียน 'บทที่ 3' ให้จบก่อนครับ");
-            } else if (targetId === 'survey') {
-                alert("⚠️ กรุณาทำ 'แบบทดสอบหลังเรียน' ให้เสร็จก่อนครับ");
+            const targetId = link.getAttribute('data-target-id');
+            const href = link.getAttribute('href');
+
+            // 1. ถ้าล็อกอยู่ ห้ามไปต่อ
+            if (!this.isUnlocked(targetId)) {
+                e.preventDefault();
+                if (targetId === 'learns_02') alert("⚠️ กรุณาเรียน 'บทที่ 1' ให้จบก่อนครับ");
+                else if (targetId === 'learns_03') alert("⚠️ กรุณาเรียน 'บทที่ 2' ให้จบก่อนครับ");
+                else if (targetId === 'quiz' || targetId === 'post_test') alert("⚠️ กรุณาเรียน 'บทที่ 3' ให้จบก่อนครับ");
+                else if (targetId === 'survey') alert("⚠️ กรุณาทำ 'แบบทดสอบหลังเรียน' ให้เสร็จก่อนครับ");
+                return false;
             }
-            return false; // ห้ามไปต่อ
-        }
 
-        // 3. ถ้าปลดล็อกแล้ว ให้ไปตามลิงก์
-        // ถ้าเป็นแบบทดสอบหรือหนังสือ ให้เปิดแท็บใหม่
-        if (targetId === 'textbook' || targetId === 'post_test' || targetId === 'survey') {
-            window.open(url, '_blank');
-        } else {
-            // ถ้าเป็นบทเรียน ให้เปลี่ยนหน้าเดิม
-            window.location.href = url;
-        }
-        return false;
+            // 2. ถ้ากดเข้าทำแบบทดสอบ (quiz หรือ post_test) -> ให้ปลดล็อก Survey ทันที!
+            if (targetId === 'quiz' || targetId === 'post_test') {
+                this.unlock('survey'); 
+                // ไม่ต้อง alert บอกก็ได้ หรือถ้าอยากบอกก็ใส่ alert("ปลดล็อกแบบประเมินแล้ว!");
+            }
+        });
     },
 
-    // --- ส่วนระบบวิดีโอและเพลง (คงเดิม) ---
+    // --- 4. ระบบวิดีโอ YouTube ---
     player: null, timer: null, timeWatched: 0, duration: 0, currentVideoId: '', nextLessonId: '', isCompleted: false,
 
     initMusic() {
@@ -102,7 +86,7 @@ const CourseSystem = {
             isPlaying = !isPlaying;
         };
         document.body.addEventListener('click', () => {
-            if(!isPlaying) { audio.volume=0.3; audio.play().then(()=>{ isPlaying=true; icon.className="fas fa-music"; }).catch(()=>{}); }
+            if(!isPlaying) { audio.volume=0.3; audio.play().catch(()=>{}); isPlaying=true; icon.className="fas fa-music"; }
         }, {once:true});
     },
 
@@ -118,7 +102,6 @@ const CourseSystem = {
     }
 };
 
-// YouTube API Handlers
 window.onYouTubeIframeAPIReady = function() {
     CourseSystem.player = new YT.Player('player', {
         height: '100%', width: '100%', videoId: CourseSystem.currentVideoId,
@@ -141,4 +124,9 @@ function startTracking() {
     },1000);
 }
 function stopTracking(){ clearInterval(CourseSystem.timer); }
-document.addEventListener('DOMContentLoaded', ()=>{ CourseSystem.refreshButtons(); CourseSystem.initMusic(); });
+
+document.addEventListener('DOMContentLoaded', ()=>{ 
+    CourseSystem.refreshButtons(); 
+    CourseSystem.initLinkInterceptors(); 
+    CourseSystem.initMusic(); 
+});
