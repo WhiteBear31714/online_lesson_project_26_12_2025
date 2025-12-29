@@ -162,3 +162,33 @@ document.addEventListener('DOMContentLoaded', ()=>{
     CourseSystem.initLinkInterceptors(); 
     CourseSystem.initMusic(); 
 });
+
+// ... (ต่อจาก initVideoLesson เดิม) ...
+
+    // --- 7. ระบบโกงรหัส (Admin Unlock) ---
+    activateCheatCode() {
+        const input = document.getElementById('secret-code');
+        const code = input ? input.value : '';
+
+        if (code === '31714') {
+            // รายการ ID ทั้งหมดที่ต้องปลดล็อก
+            const allLevels = ['learns_01', 'learns_02', 'learns_03', 'quiz', 'post_test', 'survey', 'textbook'];
+            
+            // วนลูปปลดล็อกทุกตัวลง LocalStorage
+            allLevels.forEach(id => {
+                localStorage.setItem('unlocked_' + id, 'true');
+            });
+
+            // แจ้งเตือนและรีเฟรชปุ่ม
+            alert("🔓 Admin Mode: ปลดล็อกทุกด่านเรียบร้อยแล้ว!");
+            this.refreshButtons();
+            
+            // เคลียร์ช่องรหัส
+            input.value = '';
+        } else {
+            alert("❌ รหัสไม่ถูกต้อง!");
+            input.value = '';
+        }
+    }
+    
+// ... (ปิดปีกกา } ของ CourseSystem ตามเดิม) ...

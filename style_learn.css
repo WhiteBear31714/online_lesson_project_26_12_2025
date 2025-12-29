@@ -164,10 +164,10 @@ a { text-decoration: none; }
 
 /* Hover Effect */
 .lesson-item a:hover {
-    background: #fff;
-    color: var(--secondary-color);
+    background: var(--secondary-color); /* เปลี่ยนพื้นหลังเป็นสีน้ำเงินเข้ม */
+    color: #fff; /* เปลี่ยนตัวหนังสือเป็นสีขาว */
     transform: translateX(5px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(45, 108, 223, 0.3); /* ปรับเงาให้เข้ากับสีน้ำเงิน */
 }
 
 /* Active State (กำลังเรียน) */
