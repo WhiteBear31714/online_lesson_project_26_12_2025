@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 // ... (ต่อจาก initVideoLesson เดิม) ...
 
     // --- 7. ระบบโกงรหัส (Admin Unlock) ---
-    activateCheatCode() {
+activateCheatCode() {
         const input = document.getElementById('secret-code');
         const code = input ? input.value : '';
 
@@ -189,6 +189,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
             alert("❌ รหัสไม่ถูกต้อง!");
             input.value = '';
         }
-    }
-    
+};
 // ... (ปิดปีกกา } ของ CourseSystem ตามเดิม) ...
