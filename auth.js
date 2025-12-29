@@ -1,21 +1,63 @@
-// auth.js
+// auth.js - Final Version
 const CourseSystem = {
-    // --- 1. ตรวจสอบและปลดล็อก ---
+    // --- 1. ตรวจสอบสถานะการล็อก ---
     isUnlocked(id) {
-        if (id === 'pre_test' || id === 'learns_01') return true;
-        // เช็คเผื่อกรณีชื่อ ID ไม่ตรงกัน (quiz กับ post_test คือตัวเดียวกัน)
+        // เงื่อนไข: เริ่มต้น "เข้าได้แค่แบบทดสอบก่อนเรียน" เท่านั้น
+        if (id === 'pre_test') return true;
+
+        // เช็ค Local Storage สำหรับตัวอื่นๆ
+        // (แก้ไขบั๊กชื่อ id ไม่ตรงกัน: quiz = post_test)
         if (id === 'quiz' && localStorage.getItem('unlocked_post_test') === 'true') return true;
         if (id === 'post_test' && localStorage.getItem('unlocked_quiz') === 'true') return true;
         
         return localStorage.getItem('unlocked_' + id) === 'true';
     },
 
+    // สั่งปลดล็อก
     unlock(id) {
         localStorage.setItem('unlocked_' + id, 'true');
         this.refreshButtons();
     },
 
-    // --- 2. จัดการหน้าตาปุ่ม ---
+    // --- 2. ฟังก์ชันเช็คเงื่อนไขและปลดล็อกตัวถัดไป (Logic หลัก) ---
+    checkAndProcessClick(targetId) {
+        // 2.1 ถ้ายังไม่ปลดล็อก -> ห้ามเข้า
+        if (!this.isUnlocked(targetId)) {
+            if (targetId === 'textbook') alert("⚠️ กรุณาทำ 'แบบทดสอบก่อนเรียน' ให้เสร็จก่อนครับ");
+            else if (targetId === 'learns_01') alert("⚠️ กรุณาทำ 'แบบทดสอบก่อนเรียน' ให้เสร็จก่อนครับ");
+            else if (targetId === 'learns_02') alert("⚠️ กรุณาเรียน 'บทที่ 1' ให้จบก่อนครับ");
+            else if (targetId === 'learns_03') alert("⚠️ กรุณาเรียน 'บทที่ 2' ให้จบก่อนครับ");
+            else if (targetId === 'quiz' || targetId === 'post_test') alert("⚠️ กรุณาเรียน 'บทที่ 3' ให้จบก่อนครับ");
+            else if (targetId === 'survey') alert("⚠️ กรุณาทำ 'แบบทดสอบหลังเรียน' ให้เสร็จก่อนครับ");
+            return false; // ล็อกอยู่
+        }
+
+        // 2.2 ถ้าเข้าได้ -> เช็คเงื่อนไขการปลดล็อกด่านต่อไป
+        if (targetId === 'pre_test') {
+            // *** ไฮไลท์: กด Pre-test ปุ๊บ ปลดล็อก บทที่ 1 และ หนังสือเรียน ***
+            this.unlock('learns_01');
+            this.unlock('textbook');
+        } 
+        else if (targetId === 'quiz' || targetId === 'post_test') {
+            // กด Post-test ปุ๊บ ปลดล็อก แบบประเมิน
+            this.unlock('survey');
+        }
+
+        return true; // อนุญาตให้ไปต่อ
+    },
+
+    // --- 3. รองรับ onclick ในหน้า main.html ---
+    handleClick(element, targetId, url) {
+        if (this.checkAndProcessClick(targetId)) {
+            // ถ้าผ่านเงื่อนไข ให้ลิงก์ทำงานต่อตามปกติ (return true)
+            // ถ้าเป็นลิงก์ภายนอกที่ต้องการเปิดแท็บใหม่ ให้เบราว์เซอร์จัดการผ่าน href หรือ window.open
+            return true; 
+        } else {
+            return false; // หยุดการทำงาน
+        }
+    },
+
+    // --- 4. จัดการหน้าตาปุ่ม (สีเทา/สีปกติ) ---
     refreshButtons() {
         const links = document.querySelectorAll('[data-target-id]');
         links.forEach(link => {
@@ -32,44 +74,32 @@ const CourseSystem = {
                 link.style.filter = "none";
                 link.style.opacity = "1";
                 
-                // คืนค่าไอคอนตามประเภทปุ่ม
                 if (icon) {
-                    if (targetId.includes('learns')) icon.className = "fas fa-play-circle";
-                    else if (targetId === 'quiz' || targetId === 'post_test') icon.className = "fas fa-file-alt";
+                    if (targetId === 'textbook') icon.className = "fas fa-book-open"; 
+                    else if (targetId.includes('learns')) icon.className = "fas fa-play-circle";
+                    else if (targetId === 'pre_test') icon.className = "fas fa-pen";
+                    else if (targetId === 'quiz' || targetId === 'post_test') icon.className = "fas fa-check-double";
                     else if (targetId === 'survey') icon.className = "fas fa-smile";
                 }
             }
         });
     },
 
-    // --- 3. ดักจับการคลิก (เพิ่มระบบปลดล็อก Survey) ---
+    // --- 5. ดักจับการคลิกสำหรับหน้า Learn (ที่ไม่มี onclick) ---
     initLinkInterceptors() {
         document.addEventListener('click', (e) => {
             const link = e.target.closest('[data-target-id]');
-            if (!link) return;
+            // ถ้ามี onclick อยู่แล้ว (เช่นในหน้า main) ไม่ต้องทำงานซ้ำ
+            if (!link || link.hasAttribute('onclick')) return;
 
             const targetId = link.getAttribute('data-target-id');
-            const href = link.getAttribute('href');
-
-            // 1. ถ้าล็อกอยู่ ห้ามไปต่อ
-            if (!this.isUnlocked(targetId)) {
+            if (!this.checkAndProcessClick(targetId)) {
                 e.preventDefault();
-                if (targetId === 'learns_02') alert("⚠️ กรุณาเรียน 'บทที่ 1' ให้จบก่อนครับ");
-                else if (targetId === 'learns_03') alert("⚠️ กรุณาเรียน 'บทที่ 2' ให้จบก่อนครับ");
-                else if (targetId === 'quiz' || targetId === 'post_test') alert("⚠️ กรุณาเรียน 'บทที่ 3' ให้จบก่อนครับ");
-                else if (targetId === 'survey') alert("⚠️ กรุณาทำ 'แบบทดสอบหลังเรียน' ให้เสร็จก่อนครับ");
-                return false;
-            }
-
-            // 2. ถ้ากดเข้าทำแบบทดสอบ (quiz หรือ post_test) -> ให้ปลดล็อก Survey ทันที!
-            if (targetId === 'quiz' || targetId === 'post_test') {
-                this.unlock('survey'); 
-                // ไม่ต้อง alert บอกก็ได้ หรือถ้าอยากบอกก็ใส่ alert("ปลดล็อกแบบประเมินแล้ว!");
             }
         });
     },
 
-    // --- 4. ระบบวิดีโอ YouTube ---
+    // --- 6. ระบบวิดีโอ YouTube ---
     player: null, timer: null, timeWatched: 0, duration: 0, currentVideoId: '', nextLessonId: '', isCompleted: false,
 
     initMusic() {
@@ -102,6 +132,7 @@ const CourseSystem = {
     }
 };
 
+// YouTube API
 window.onYouTubeIframeAPIReady = function() {
     CourseSystem.player = new YT.Player('player', {
         height: '100%', width: '100%', videoId: CourseSystem.currentVideoId,
@@ -125,6 +156,7 @@ function startTracking() {
 }
 function stopTracking(){ clearInterval(CourseSystem.timer); }
 
+// เริ่มทำงาน
 document.addEventListener('DOMContentLoaded', ()=>{ 
     CourseSystem.refreshButtons(); 
     CourseSystem.initLinkInterceptors(); 
